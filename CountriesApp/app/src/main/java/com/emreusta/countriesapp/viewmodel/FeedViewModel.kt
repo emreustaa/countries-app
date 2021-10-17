@@ -17,8 +17,7 @@ import kotlinx.coroutines.launch
 class FeedViewModel(application: Application) : BaseViewModel(application) {
 
     private val countryApiService = CountryAPIService()
-    private val disposable =
-        CompositeDisposable() // büyük objede call yaptıkça içine atılır ve hafızanın verimli kullanılmasını sağlar.
+    private val disposable = CompositeDisposable() // büyük objede call yaptıkça içine atılır ve hafızanın verimli kullanılmasını sağlar.
     private val customPreferences = CustomSharedPreferences(getApplication())
     private var refreshTime = 10 * 60 * 1000 * 1000 * 1000L
 
@@ -90,5 +89,10 @@ class FeedViewModel(application: Application) : BaseViewModel(application) {
             showCountries(list)
         }
         customPreferences.saveTime(System.nanoTime())
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        disposable.clear()
     }
 }
