@@ -46,13 +46,12 @@ class FeedFragment : Fragment() {
         binding.recyclerViewCountryList.layoutManager = LinearLayoutManager(context)
         binding.recyclerViewCountryList.adapter = countryAdapter
 
-        val myString = "James"
 
         binding.swipeRefreshLayout.setOnRefreshListener {
             binding.recyclerViewCountryList.visibility = View.GONE
             binding.textViewCountryError.visibility = View.GONE
             binding.progressBarCountryLoading.visibility = View.VISIBLE
-            viewModel.refreshData()
+            viewModel.refreshFromAPI()
             binding.swipeRefreshLayout.isRefreshing = false
 
         }

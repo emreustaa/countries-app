@@ -9,11 +9,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 
 import com.emreusta.countriesapp.databinding.FragmentCountryBinding
+import com.emreusta.countriesapp.util.downloadFromUrl
+import com.emreusta.countriesapp.util.placeHolderProgressBar
 import com.emreusta.countriesapp.viewmodel.CountryViewModel
 
 
 class CountryFragment : Fragment() {
-
     private var countryUuid = 0
     private lateinit var viewModel: CountryViewModel
     private lateinit var binding: FragmentCountryBinding
@@ -36,12 +37,13 @@ class CountryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this).get(CountryViewModel::class.java)
-        viewModel.getDataFromRoom()
-
         arguments?.let {
             countryUuid = CountryFragmentArgs.fromBundle(it).countryUuid
         }
+
+        viewModel = ViewModelProviders.of(this).get(CountryViewModel::class.java)
+        viewModel.getDataFromRoom(countryUuid)
+        observeLiveData()
 
 
     }
@@ -49,11 +51,17 @@ class CountryFragment : Fragment() {
     private fun observeLiveData() {
         viewModel.countryLiveData.observe(viewLifecycleOwner, Observer { country ->
             country?.let {
-                binding.textViewCountryNameDetail.text = country.countryName
-                binding.textViewCountryCapitalDetail.text = country.countryCapital
-                binding.textViewCountryCurrencyDetail.text = country.countryCurrency
-                binding.textViewCountryLanguageDetail.text = country.countryLanguage
-                binding.textViewCountryRegionDetail.text = country.countryRegion
+                binding.apply {
+                    textViewCountryNameDetail.text = country.countryName
+                    textViewCountryCapitalDetail.text = country.countryCapital
+                    textViewCountryCurrencyDetail.text = country.countryCurrency
+                    textViewCountryLanguageDetail.text = country.countryLanguage
+                    textViewCountryRegionDetail.text = country.countryRegion
+                    imageViewCountryDetail.downloadFromUrl(
+                        country.url,
+                        placeHolderProgressBar(requireContext())
+                    )
+                }
             }
         })
     }

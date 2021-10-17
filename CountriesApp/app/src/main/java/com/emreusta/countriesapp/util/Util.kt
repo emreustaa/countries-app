@@ -16,7 +16,7 @@ fun String.myExtension(myParameter: String) {
 }*/
 
 
-fun ImageView.downloadFromUrl(url: String, progressDrawable: CircularProgressDrawable) {
+fun ImageView.downloadFromUrl(url: String?, progressDrawable: CircularProgressDrawable) {
 
     val options = RequestOptions().placeholder(progressDrawable).error(R.mipmap.ic_launcher_round)
 
