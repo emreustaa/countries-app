@@ -38,7 +38,9 @@ fun placeHolderProgressBar(context: Context): CircularProgressDrawable {
 }
 
 @BindingAdapter("android:downloadUrl")
-fun downloadImage(view:ImageView,url:String?){
+fun downloadImage(view: ImageView, url: String?) {
+    url?.let {
+        view.downloadFromUrl(it, placeHolderProgressBar(view.context))
+    }
 
-    view.downloadFromUrl(url!!, placeHolderProgressBar(view.context))
 }

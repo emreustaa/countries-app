@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.emreusta.countriesapp.adapter.CountryAdapter
+import com.emreusta.countriesapp.adapter.CountryClickListener
 import com.emreusta.countriesapp.databinding.FragmentFeedBinding
 import com.emreusta.countriesapp.model.Country
 
@@ -22,10 +23,9 @@ class FeedFragment : Fragment() {
     private lateinit var viewModel: FeedViewModel
     private val countryAdapter = CountryAdapter(arrayListOf())
     private lateinit var binding: FragmentFeedBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
     }
 
     override fun onCreateView(

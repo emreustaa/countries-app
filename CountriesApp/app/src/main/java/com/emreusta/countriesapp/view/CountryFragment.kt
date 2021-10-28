@@ -5,8 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.emreusta.countriesapp.R
 
 import com.emreusta.countriesapp.databinding.FragmentCountryBinding
 import com.emreusta.countriesapp.util.downloadFromUrl
@@ -18,6 +20,7 @@ class CountryFragment : Fragment() {
     private var countryUuid = 0
     private lateinit var viewModel: CountryViewModel
     private lateinit var binding: FragmentCountryBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -30,7 +33,7 @@ class CountryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentCountryBinding.inflate(layoutInflater)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_country, container, false)
         return binding.root
     }
 
@@ -52,15 +55,7 @@ class CountryFragment : Fragment() {
         viewModel.countryLiveData.observe(viewLifecycleOwner, Observer { country ->
             country?.let {
                 binding.apply {
-                    textViewCountryNameDetail.text = country.countryName
-                    textViewCountryCapitalDetail.text = country.countryCapital
-                    textViewCountryCurrencyDetail.text = country.countryCurrency
-                    textViewCountryLanguageDetail.text = country.countryLanguage
-                    textViewCountryRegionDetail.text = country.countryRegion
-                    imageViewCountryDetail.downloadFromUrl(
-                        country.url,
-                        placeHolderProgressBar(requireContext())
-                    )
+                    selectedCountry = country
                 }
             }
         })
